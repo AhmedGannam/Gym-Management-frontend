@@ -1,0 +1,180 @@
+.splash-content {
+  --background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.splash-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+}
+
+/* Animated background effect */
+.splash-content::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 70%
+  );
+  animation: rotateBg 20s linear infinite;
+  z-index: 1;
+}
+
+.logo-container {
+  margin-bottom: 24px;
+  animation: logoEntrance 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+.logo-background {
+  width: 140px;
+  height: 140px;
+  background: linear-gradient(135deg, #2c3e50 0%, #1a1a1a 100%);
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    inset 0 4px 12px rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.logo-background::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.1), 
+    transparent
+  );
+  animation: logoShine 3s infinite;
+  z-index: 1;
+}
+
+.logo-img {
+  width: 80px;
+  height: 80px;
+  z-index: 2;
+  position: relative;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.brand-container {
+  text-align: center;
+  margin-bottom: 40px;
+  animation: textEntrance 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.2s forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.brand-name {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  background: linear-gradient(to right, #ffffff 0%, #e0e0e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.brand-tagline {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.progress-container {
+  width: 100%;
+  max-width: 220px;
+  animation: progressEntrance 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s forwards;
+  opacity: 0;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(to right, #4a90e2, #5cb85c);
+  border-radius: 2px;
+  animation: load 2.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+/* Animations */
+@keyframes rotateBg {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes logoEntrance {
+  0% { 
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  100% { 
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes textEntrance {
+  0% { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes progressEntrance {
+  0% { 
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes logoShine {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(200%) translateY(200%) rotate(45deg); }
+}
+
+@keyframes load {
+  0% { width: 0; }
+  100% { width: 100%; }
+}

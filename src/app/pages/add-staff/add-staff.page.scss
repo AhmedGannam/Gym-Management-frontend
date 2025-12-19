@@ -1,0 +1,110 @@
+
+  .form-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .section-card {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f0f0;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .section-header ion-icon {
+    margin-right: 12px;
+    font-size: 24px;
+  }
+
+  .section-header h2 {
+    margin: 0;
+    color: #000000;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .form-list {
+    background: transparent;
+  }
+
+  .form-item {
+    --background: #ffffff;
+    --border-color: #e0e0e0;
+    --border-width: 1px;
+    --border-style: solid;
+    --border-radius: 8px;
+    margin-bottom: 16px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }
+
+  .form-item:hover {
+    --border-color: #000000;
+  }
+
+  .custom-input {
+    --color: #000000;
+    --placeholder-color: #666666;
+  }
+
+  .submit-button {
+    --background: #000000;
+    --color: #ffffff;
+    --border-radius: 12px;
+    margin-top: 24px;
+    height: 50px;
+    font-weight: 600;
+  }
+
+  .submit-button:hover {
+    --background: #333333;
+  }
+
+  .submit-button:disabled {
+    --background: #cccccc;
+    --color: #666666;
+  }
+
+  .status-messages {
+    margin-top: 16px;
+  }
+
+  .status-text {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .status-text ion-icon {
+    margin-right: 8px;
+    font-size: 18px;
+  }
+
+  .error-text {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+  }
+
+  .success-text {
+    background-color: #e8f5e8;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+  }
+
+  ion-note {
+    font-size: 12px;
+  }

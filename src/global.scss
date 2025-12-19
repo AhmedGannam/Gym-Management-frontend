@@ -1,0 +1,451 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+
+// Global Main Styling 
+ion-content {
+  --background: #f5f7fa;
+  padding-bottom: 72px;
+}
+
+ion-card-header {
+  background:  #dfe6ed;
+}
+
+ion-card-title {
+  font-weight: 600;
+}
+
+ion-tab-bar {
+  --background: #ffffff;
+  --color-selected: var(--ion-color-primary);
+  --color: #666666;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --border-width: 1px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 6px;
+  }
+
+ion-tab-button {
+  --background: transparent;
+  --color: inherit;
+  --border: none;
+  border-radius: 24px;    /* pill around each icon/label */
+  transition: background-color 0.2s ease;
+}
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+ @import "@ionic/angular/css/palettes/dark.class.css";
+// @import "@ionic/angular/css/palettes/dark.system.css";
+
+body.dark {
+  /* General Global Overrides */
+  ion-content {
+    --background: linear-gradient(135deg, #181a20 0%, #232946 100%);
+    transition: background 0.3s;
+  }
+  
+  ion-card, .card-native {
+    --background: #232946;
+    background: linear-gradient(135deg, #232946 60%, #181a20 100%);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    border-radius: 18px;
+    color: #f4f4f5;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  ion-list, ion-list-header, ion-item {
+    --background: transparent;
+    background: none;
+    color: #f4f4f5;
+    border-radius: 12px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  ion-item {
+    --background: #232946;
+    background: #232946;
+    border-bottom: 1px solid #232946;
+    color: #f4f4f5;
+  }
+
+  ion-label, ion-title, ion-text, h1, h2, h3, h4, h5, h6, p, span {
+    color: #f4f4f5 !important;
+    transition: color 0.3s;
+  }
+
+  ion-toolbar, ion-header, ion-footer {
+    --background: #181a20;
+    background: #181a20;
+    color: #f4f4f5;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  ion-button, .button-native {
+    --color: #f4f4f5 !important;
+    border-radius: 12px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  ion-tab-bar {
+    --background: #232946;
+    --color-selected: #7f8ff4;
+    --color: #a1a6b4;
+    --border-color: #232946;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  ion-tab-button {
+    --background: transparent;
+    --color: inherit;
+    border-radius: 24px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  ::selection {
+    background: #7f8ff4;
+    color: #181a20;
+  }
+
+  /* Inputs & Form Elements */
+  input, ion-input, ion-textarea {
+    background: #232946 !important;
+    --color: #f4f4f5 !important;
+    color: #f4f4f5 !important;
+  }
+
+  ion-select, .select-text, ion-select::part(text) {
+    color: #f4f4f5 !important;
+  }
+
+  ion-select-popover, ion-select-popover .select-interface-option {
+    --background: #232946 !important;
+    --color: #f4f4f5 !important;
+    background: #232946 !important;
+    color: #f4f4f5 !important;
+  }
+
+  /* Action Sheet fixes */
+  .action-sheet-group, .action-sheet-title, .action-sheet-button {
+    background: #232946 !important;
+    color: #f4f4f5 !important;
+    border-radius: 16px !important;
+  }
+  .action-sheet-button.sc-ion-action-sheet-md {
+    font-size: 1rem !important;
+    padding: 14px 0 !important;
+  }
+  .action-sheet-cancel {
+    background: #181a20 !important;
+    color: #7f8ff4 !important;
+    border-radius: 16px !important;
+  }
+  .action-sheet-icon {
+    color: #7f8ff4 !important;
+  }
+  .action-sheet-cancel.sc-ion-action-sheet-ios::after {
+    background: #232946 !important;
+    color: #7f8ff4 !important;
+  }
+
+  /* Toolbar button fixes */
+  ion-toolbar ion-buttons ion-button, ion-toolbar ion-buttons ion-icon {
+    --background: transparent !important;
+    background: transparent !important;
+    color: #f4f4f5 !important;
+  }
+
+  /* Dashboard & Cards */
+  .summary-card, .filters-container, .transaction-card, .section-card, .member-item, .chart-card, .financial-summary-card {
+    background: var(--ion-color-light) !important;
+    color: #f4f4f5 !important;
+    box-shadow: 0 2px 12px rgba(24,26,32,0.25) !important;
+    border: 1px solid #232946 !important;
+  }
+  
+  // Specific card overrides
+  .chart-card, .financial-summary-card {
+     background: linear-gradient(135deg, #1e2239 0%, #252b4a 100%) !important;
+     box-shadow: 0 8px 32px rgba(24, 26, 32, 0.25) !important;
+  }
+
+  .member-item .member-info .member-name,
+  .summary-card .card-info h3,
+  .summary-card .card-info .amount,
+  .transaction-card .transaction-title h5,
+  .transaction-card .transaction-amount,
+  .transaction-card .transaction-description,
+  .transaction-card .transaction-meta,
+  .transaction-card .meta-item,
+  .section-header h2, 
+  .section-header ion-icon,
+  .data-card h3, .data-card p,
+  .label, .value, ion-card-subtitle {
+     color: #f4f4f5 !important;
+  }
+  
+  .member-item .member-status, .member-item .arrow-icon, .empty-state, .empty-state h3, .empty-state p {
+     color: #a1a6b4 !important;
+  }
+
+  .transaction-icon {
+    background: #232946 !important;
+    color: #7f8ff4 !important;
+  }
+
+  .filter-chip {
+    background: #232946 !important;
+    color: #f4f4f5 !important;
+    border: 1px solid #3a4062 !important;
+  }
+  .filter-chip.active {
+    background: #7f8ff4 !important;
+    color: #181a20 !important;
+    border-color: #7f8ff4 !important;
+  }
+
+  .custom-searchbar {
+    --background: #232946 !important;
+    --color: #f4f4f5 !important;
+    border: 1px solid #3a4062 !important;
+  }
+
+  /* Status Badges */
+  .status-badge.status-active { background: rgba(74,222,128,0.15) !important; color: #4ade80 !important; }
+  .status-badge.status-expired { background: rgba(244,63,94,0.15) !important; color: #f43f5e !important; }
+  .status-badge.status-cancelled { background: rgba(161,166,180,0.15) !important; color: #a1a6b4 !important; }
+  .status-badge.status-inactive { background: linear-gradient(135deg, #f43f5e 0%, #facc15 100%); color: #181a20; }
+
+  /* Stat Cards */
+  .stat-card {
+      border-radius: 16px;
+      padding: 20px 16px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: linear-gradient(135deg, #232946 60%, #181a20 100%) !important; // fallback
+      
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      }
+      
+      .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 16px;
+        background: rgba(255,255,255,0.2);
+        ion-icon { font-size: 1.8rem; color: white; }
+      }
+      
+      .stat-content {
+        h2 { margin: 0; font-size: 1.8rem; font-weight: 700; color: white; }
+        p { margin: 4px 0 0; font-size: 0.9rem; color: rgba(255,255,255,0.85); }
+      }
+      
+      /* Color Variants */
+      &.primary { background: linear-gradient(135deg, #3498db, #2c6fbb)!important; }
+      &.success { background: linear-gradient(135deg, #2ecc71, #27ae60)!important; }
+      &.warning { background: linear-gradient(135deg, #f39c12, #e67e22)!important; }
+      &.danger { background: linear-gradient(135deg, #e74c3c, #c0392b)!important; }
+      &.info { background: linear-gradient(135deg, #5c677d, #3c4456)!important; }
+  }
+
+  /* Specific Components */
+  .plan-card, .transaction-card, .list-item, ion-card-content, .settings-section {
+    background: #232946 !important;
+  }
+  
+  .settings-section {
+    box-shadow: 0 4px 24px rgba(24,26,32,0.25) !important;
+    border: 1px solid #232946 !important;
+  }
+  
+  .add-plan-button, .submit-button {
+    --background: linear-gradient(90deg, #7f8ff4 0% ) !important;
+    --color: #f4f4f5 !important;
+  }
+
+  .popover-arrow { background: #232946 !important; }
+  .filter-row { --color: #f4f4f5 !important; }
+
+  ion-card-header {
+    background: linear-gradient(135deg, #1e2239 0%, #252b4a 100%) !important;
+    border-bottom: 1px solid rgba(127, 143, 244, 0.15) !important;
+    ion-card-title { color: #f4f4f5 !important; }
+    ion-card-subtitle { color: #a1a6b4 !important; }
+    .view-details-button { color: #7f8ff4 !important; ion-icon { color: #7f8ff4 !important; } }
+  }
+
+  .chart-container, .data-card, .payment-status {
+    background: #232946 !important;
+    border: 1px solid #232946 !important;
+  }
+  
+  .member-info-card, .membership-form {
+    background: var(--ion-color-light); 
+    color: #f4f4f5 !important;
+    box-shadow: 0 4px 24px rgba(24,26,32,0.25);
+    border: 1px solid #232946;
+  }
+  
+  .info-item {
+     border-bottom: 1px solid #232946;
+     .info-label, strong { color: #f4f4f5 !important; }
+  }
+  
+  .form-section {
+    background: var(--ion-color-light);
+    color: #f4f4f5 !important;
+    border: 1px solid #232946;
+  }
+  .form-item {
+    --background: #232946 !important;
+    --border-color: #3a4062 !important;
+    color: #f4f4f5;
+  }
+  
+  .price-display { color: #7f8ff4; }
+  .update-button { --background: linear-gradient(135deg, #5c677d 0%, #3c4456 100%); --color: #f4f4f5; }
+  .fab-button, .camera-button, .upload-button { --background: #7f8ff4 !important; }
+  .item-header { --color:#f4f4f5 !important; }
+  .all-member { color: white !important; }
+  
+  .custom-input, .custom-select {
+    --color: #f4f4f5 !important;
+    --placeholder-color: #a1a6b4 !important;
+  }
+  .readonly-input { --color: #a1a6b4 !important; }
+
+  /* Login & Auth */
+  .form-container { background-color: #232946; }
+  .register-btn {
+    color: white !important;
+    border: solid 1px rgb(42, 41, 83);
+  }
+  
+  /* Alerts & Checkboxes - FIX: Text should be LIGHT in dark mode */
+  ion-alert, .alert-wrapper {
+      --background: #232946 !important;
+      --ion-text-color: #f4f4f5 !important;
+  }
+  .alert-head, .alert-title, .alert-message, .alert-input, 
+  .alert-radio-label, .alert-checkbox-label, .alert-button-group {
+      color: #f4f4f5 !important;
+  }
+  .alert-button-inner {
+      color: #7f8ff4 !important; /* Action color */
+  }
+
+  /* Financial Summary Card specific styles */
+  .financial-summary-card {
+    ion-card-header {
+      background: transparent !important;
+      border-bottom: 1px solid rgba(127, 143, 244, 0.15) !important;
+    }
+
+    .financial-metrics {
+      .metric-item {
+        background: rgba(35, 41, 70, 0.7) !important;
+        border: 1px solid rgba(127, 143, 244, 0.2) !important;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        
+        .value {
+          color: #f4f4f5 !important;
+          font-weight: 600;
+        }
+        
+        .label {
+          color: #f4f4f5 !important;
+          font-size: 0.8rem;
+        }
+
+        &.green { ion-icon { color: #4ade80 !important; } .value { color: #4ade80 !important; } }
+        &.blue { ion-icon { color: #60a5fa !important; } .value { color: #60a5fa !important; } }
+        &.purple { ion-icon { color: #c084fc !important; } .value { color: #c084fc !important; } }
+        &.orange { ion-icon { color: #fbbf24 !important; } .value { color: #fbbf24 !important; } }
+      }
+    }
+
+    .progress-container {
+      background: rgba(35, 41, 70, 0.7) !important;
+      border: 1px solid rgba(127, 143, 244, 0.2) !important;
+      backdrop-filter: blur(5px);
+
+      .progress-labels {
+        span {
+          color: #f4f4f5 !important;
+          font-weight: 500;
+          
+          &:last-child {
+            color: #7f8ff4 !important;
+            font-weight: 600;
+          }
+        }
+      }
+
+      .progress-bar {
+        background-color: rgba(127, 143, 244, 0.2) !important;
+        
+        .progress-fill {
+          background: linear-gradient(to right, #7f8ff4, #5c6bc0) !important;
+          box-shadow: 0 0 10px rgba(127, 143, 244, 0.3);
+        }
+      }
+    }
+  }
+
+  /* Setting page */
+  .setting-section{
+    border: none;
+  }
+  /* Profile page */
+  .profile-header{
+    background: #232946 !important;
+  }
+  .settings-title{
+    color: white !important;
+  }
+  ion-card-title{
+    color: white !important;
+  }
+}

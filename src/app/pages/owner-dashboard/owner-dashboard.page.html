@@ -1,0 +1,146 @@
+<ion-header>
+  <app-toolbar [role]="'owner'" [title]="'Owner Dashboard'"></app-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding dashboard-content">
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading dashboard...</p>
+  </div>
+
+  <div *ngIf="!isLoading && dashboardData" style="margin-bottom: 220px;">
+    <!-- Stats Cards - Modern Grid Layout -->
+    <div class="stats-grid">
+      <div class="stat-card primary">
+        <div class="stat-icon">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <h2>{{ dashboardData.counts.total_members }}</h2>
+          <p>Total Members</p>
+        </div>
+      </div>
+
+      <div class="stat-card success">
+        <div class="stat-icon">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <h2>{{ dashboardData.active_memberships }}</h2>
+          <p>Active Memberships</p>
+        </div>
+      </div>
+
+      <div class="stat-card info" (click)="navigateToStaffList()">
+        <div class="stat-icon">
+          <ion-icon name="briefcase-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <h2>{{ dashboardData.counts.total_staffs }}</h2>
+          <p>Total Staffs</p>
+        </div>
+      </div>
+
+      <div class="stat-card danger" (click)="navigateToExpiredMembers()">
+        <div class="stat-icon">
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <h2>{{ dashboardData.counts.expired_memberships }}</h2>
+          <p>Expired Memberships</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-row">
+      <ion-card *ngIf="dashboardData" class="glass-card financial-summary-card">
+        <ion-card-header>
+          <div class="header-content">
+            <ion-card-title>Financial Summary</ion-card-title>
+            <ion-button fill="clear" size="small" routerLink="/owner-tabs/transactions" class="view-details-button">
+              View Details <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="financial-metrics">
+            <div class="metric-item green">
+              <ion-icon name="wallet-outline" color="success"></ion-icon>
+              <div class="value">{{ dashboardData.total_revenue | currency:'INR':'symbol' }}</div>
+              <div class="label">Total Collected</div>
+            </div>
+            <div class="metric-item blue">
+              <ion-icon name="today-outline" color="primary"></ion-icon>
+              <div class="value">{{ dashboardData.todays_revenue | currency:'INR':'symbol' }}</div>
+              <div class="label">Today's Revenue</div>
+            </div>
+            <div class="metric-item purple">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <div class="value">{{ dashboardData.counts.revenue_this_month | currency:'INR':'symbol' }}</div>
+              <div class="label">Monthly Revenue</div>
+            </div>
+            <div class="metric-item orange">
+              <ion-icon name="alert-circle-outline" color="warning"></ion-icon>
+              <div class="value">{{ transactionSummary?.total_due | currency:'INR':'symbol' }}</div>
+              <div class="label">Total Due</div>
+            </div>
+          </div>
+
+          <div class="progress-container">
+            <div class="progress-labels">
+              <span>Collections Progress</span>
+              <span>{{ getCollectionPercentage() }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="getCollectionPercentage()"></div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Revenue Chart Card -->
+      <ion-card class="chart-card glass-card">
+        <ion-card-header>
+          <ion-card-title>Revenue Trends</ion-card-title>
+          <ion-card-subtitle>Last 6 months performance</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <canvas id="canvas" baseChart [data]="monthlyRevenueChartData" [options]="monthlyRevenueChartOptions"
+            [type]="monthlyRevenueChartType">
+          </canvas>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Action Buttons -->
+    <!-- <div class="action-container">
+      <ion-button (click)="navigateToAddMember()" class="action-btn" fill="solid" color="primary" shape="round">
+        <ion-icon slot="start" name="person-add-outline"></ion-icon>
+        Add New Member
+      </ion-button>
+      
+      <ion-button (click)="navigateToAddMembershipPlan()" class="action-btn" fill="solid" color="secondary" shape="round">
+        <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+        Add Plan
+      </ion-button>
+
+      <ion-button (click)="navigateToAddStaff()" class="action-btn" fill="solid" color="tertiary" shape="round">
+        <ion-icon slot="start" name="people-outline"></ion-icon>
+        Add Staff
+      </ion-button>
+
+      <ion-button (click)="navigateToTransactions()" class="action-btn" fill="solid" color="medium" shape="round">
+        <ion-icon slot="start" name="receipt-outline"></ion-icon>
+        Transactions
+      </ion-button>
+    </div> -->
+
+    <!-- Dashboard Content Columns -->
+  </div>
+  <div class="fab-container">
+    <button class="fab-main" (click)="openQuickActions()">
+      <span class="fab-icon">+</span>
+    </button>
+  </div>
+
+</ion-content>

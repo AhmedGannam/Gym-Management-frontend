@@ -1,0 +1,83 @@
+<ion-header>
+  <app-toolbar [role]="'owner'" [title]="'Gym Profile'" [showBackButton]="true"></app-toolbar>
+</ion-header>
+
+<ion-content class="profile-edit-page">
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <div class="avatar-container">
+      <div class="avatar-border">
+        <img [src]="userProfile?.photo || '../../../assets/avatar.png'" alt="Profile picture">
+      </div>
+      <input type="file" accept="image/*" hidden #fileInput (change)="uploadPhoto($event)">
+      <ion-button fill="clear" class="edit-avatar-btn" (click)="fileInput.click()">
+        <ion-icon name="camera"></ion-icon>
+      </ion-button>
+    </div>
+    <h2 style="color: black;">{{ gymInfo?.gym_name }}</h2>
+  </div>
+
+  <!-- Personal Information Card -->
+  <ion-card class="info-card">
+    <ion-card-header>
+      <ion-card-title class="card-title">
+        <ion-icon name="person" class="card-icon"></ion-icon>
+        OWNER INFORMATION
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="info-item">
+        <span class="info-label">Full Name:</span>
+        <strong>{{ userProfile?.first_name }} {{ userProfile?.last_name }}</strong>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Email:</span>
+        <strong>{{ userProfile?.email }}</strong>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Phone Number:</span>
+        <strong>{{ userProfile?.phone }}</strong>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Gym Information Card -->
+  <div class="settings-section">
+    <div class="settings-title"><ion-icon name="business-outline"></ion-icon> Gym Information</div>
+    <ion-item lines="none">
+      <ion-label>Gym Name</ion-label>
+      <ion-note slot="end">{{ gymInfo?.gym_name }}</ion-note>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>Join Code</ion-label>
+      <ion-note slot="end">{{ gymInfo?.unique_join_code }}</ion-note>
+      <ion-button fill="clear" slot="end" (click)="copyJoinCode()">
+        <ion-icon name="copy-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>Contact Email</ion-label>
+      <ion-note slot="end">{{ gymInfo?.contact_email }}</ion-note>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>Contact Phone</ion-label>
+      <ion-note slot="end">{{ gymInfo?.contact_phone }}</ion-note>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>Address</ion-label>
+      <ion-note>{{ gymInfo?.address }}</ion-note>
+    </ion-item>
+  </div>
+  <div class="settings-section">
+    <div class="settings-title"><ion-icon name="settings-outline"></ion-icon>Settings and Configurations</div>
+    <ion-item button lines="none" (click)="settings()">
+      <ion-label>Settings</ion-label>
+      <ion-icon name="settings-outline" slot="end"></ion-icon>
+    </ion-item>
+    <ion-button expand="block" class="logout-btn" (click)="logout()">
+      <ion-icon name="log-out" slot="start"></ion-icon>
+      LOGOUT
+    </ion-button>
+  </div>
+</ion-content>
+ 

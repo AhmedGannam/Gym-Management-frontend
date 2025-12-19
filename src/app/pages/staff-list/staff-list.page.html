@@ -1,0 +1,41 @@
+<ion-header>
+  <app-toolbar [role]="'owner'" [title]="'All Staff'" [showBackButton]="true"></app-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding staff-list-content">
+
+  <!-- <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading staff...</p>
+  </div> -->
+
+  <div *ngIf="staffList.length > 0" class="staff-cards-grid">
+    <div class="staff-card glass-card" *ngFor="let staff of staffList">
+      <div class="staff-avatar">
+        <img *ngIf="staff.photo; else defaultAvatar" [src]="staff.photo" alt="Staff Photo" class="staff-photo-img" />
+        <ng-template #defaultAvatar>
+          <ion-icon name="person-circle-outline"></ion-icon>
+        </ng-template>
+        <input type="file" accept="image/*" hidden #fileInput (change)="uploadStaffPhoto(staff, $event)">
+        <ion-button fill="clear" size="small" class="upload-photo-btn" (click)="fileInput.click()">
+          <ion-icon name="cloud-upload"></ion-icon>
+        </ion-button>
+      </div>
+      <div class="staff-info">
+        <h2>{{ staff.first_name }} {{ staff.last_name }}</h2>
+        <p><ion-icon name="call-outline"></ion-icon> {{ staff.phone }}</p>
+        <p><ion-icon name="mail-outline"></ion-icon> {{ staff.email }}</p>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="staffList.length === 0" class="empty-message">
+    <ion-icon name="people-outline" size="large"></ion-icon>
+    <p>No staff found.</p>
+  </div>
+    <div class="fab-container">
+    <ion-button color="primary" class="fab-button"  (click)="navigateToAddStaff()">
+      <ion-icon slot="start" name="add" class="add-icon"></ion-icon>
+      
+    </ion-button>
+  </div>
+</ion-content>

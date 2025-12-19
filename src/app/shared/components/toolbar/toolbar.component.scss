@@ -1,0 +1,87 @@
+ion-header {
+  &.ion-safe-area-top {
+    padding-top: var(--ion-safe-area-top, 0);
+  }
+  
+  ion-toolbar.dashboard-toolbar {
+    --background: linear-gradient(135deg, #2c3e50, #1a1a2e);
+    --color: white;
+    --border-width: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+    min-height: 56px;
+    padding-inline: 8px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    
+    /* Ensure content doesn't get hidden under status bar */
+    &::after {
+      content: '';
+      position: absolute;
+      top: calc(-1 * var(--ion-safe-area-top, 0));
+      left: 0;
+      right: 0;
+      height: var(--ion-safe-area-top, 0);
+      background: linear-gradient(135deg, #2c3e50, #1a1a2e);
+      z-index: -1;
+    }
+    
+    .toolbar-title {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: white;
+      margin-left: 12px;
+      flex: 1 1 auto;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+      min-width: 0;
+    }
+    
+    .app-logo {
+      font-size: 2rem;
+      color: #f9ca24;
+      margin-right: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      padding: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    ion-button {
+      --color: #f9ca24;
+      --background-hover: rgba(255,255,255,0.10);
+      --border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      margin-left: 4px;
+      margin-right: 0;
+    }
+  }
+}
+
+.notification-btn {
+  position: relative;
+  
+  .notification-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    left: auto;
+    font-size: 10px;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    --background: var(--ion-color-danger);
+    --color: white;
+  }
+}
+
+/* Host binding for safe areas with fallbacks */
+:host {
+  --ion-safe-area-top: env(safe-area-inset-top, 20px);
+  --ion-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --ion-safe-area-left: env(safe-area-inset-left, 0px);
+  --ion-safe-area-right: env(safe-area-inset-right, 0px);
+}

@@ -1,0 +1,180 @@
+<ion-header>
+  <app-toolbar [role]="'owner'" [title]="'Transaction'" [showBackButton]="true"></app-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Summary Section -->
+  <div class="summary-section">
+    <div class="summary-cards">
+      <div class="summary-card total-card">
+        <div class="card-content">
+          <div class="card-icon">
+            <ion-icon name="trending-up-outline"></ion-icon>
+          </div>
+          <div class="card-info">
+            <h3>Total Revenue</h3>
+            <p class="amount">₹{{ dashboardData.total_revenue }}</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="summary-card today-card">
+        <div class="card-content">
+          <div class="card-icon">
+            <ion-icon name="today-outline"></ion-icon>
+          </div>
+          <div class="card-info">
+            <h3>Today</h3>
+            <p class="amount">₹{{ dashboardData.todays_revenue }}</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="summary-card month-card">
+        <div class="card-content">
+          <div class="card-icon">
+            <ion-icon name="calendar-outline"></ion-icon>
+          </div>
+          <div class="card-info">
+            <h3>This Month</h3>
+            <p class="amount">₹{{ dashboardData.counts.revenue_this_month }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <div class="content-section">
+    <!-- Filters -->
+    <div class="filters-container">
+      <!-- Period Filter -->
+      <div class="filter-section">
+        <h4 class="filter-title">Period</h4>
+        <div class="filter-chips">
+          <div class="filter-chip" 
+               [class.active]="filters.period === 'all'" 
+               (click)="filters.period = 'all'; applyFilters()">
+            <ion-icon name="infinite-outline"></ion-icon>
+            <span>All</span>
+          </div>
+          <div class="filter-chip" 
+               [class.active]="filters.period === 'today'" 
+               (click)="filters.period = 'today'; applyFilters()">
+            <ion-icon name="today-outline"></ion-icon>
+            <span>Today</span>
+          </div>
+          <div class="filter-chip" 
+               [class.active]="filters.period === 'month'" 
+               (click)="filters.period = 'month'; applyFilters()">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>Month</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Type Filter -->
+      <div class="filter-section">
+        <h4 class="filter-title">Type</h4>
+        <div class="filter-chips">
+          <div class="filter-chip" 
+               [class.active]="filters.type === 'all'" 
+               (click)="filters.type = 'all'; applyFilters()">
+            <ion-icon name="apps-outline"></ion-icon>
+            <span>All</span>
+          </div>
+          <div class="filter-chip" 
+               [class.active]="filters.type === 'membership_payment'" 
+               (click)="filters.type = 'membership_payment'; applyFilters()">
+            <ion-icon name="card-outline"></ion-icon>
+            <span>Membership</span>
+          </div>
+          <div class="filter-chip" 
+               [class.active]="filters.type === 'admission_fee'" 
+               (click)="filters.type = 'admission_fee'; applyFilters()">
+            <ion-icon name="person-add-outline"></ion-icon>
+            <span>Admission</span>
+          </div>
+          <div class="filter-chip" 
+               [class.active]="filters.type === 'personal_training'" 
+               (click)="filters.type = 'personal_training'; applyFilters()">
+            <ion-icon name="barbell-outline"></ion-icon>
+            <span>Personal Training</span>
+          </div>
+          <div class="filter-chip" 
+               [class.active]="filters.type === 'other_fee'" 
+               (click)="filters.type = 'other_fee'; applyFilters()">
+            <ion-icon name="cash-outline"></ion-icon>
+            <span>Other</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="search-section">
+        <ion-searchbar 
+          [(ngModel)]="filters.search" 
+          (ionChange)="applyFilters()" 
+          placeholder="Search by member or description" 
+          animated
+          class="custom-searchbar">
+        </ion-searchbar>
+      </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="loading-container">
+      <ion-spinner name="crescent" class="center-spinner"></ion-spinner>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="error-container">
+      <div class="error-message">{{ error }}</div>
+    </div>
+
+    <!-- Transactions List -->
+    <div class="transactions-container" *ngIf="!isLoading && !error">
+      <div class="transaction-card" *ngFor="let t of filteredTransactions">
+        <div class="transaction-content">
+          <div class="transaction-icon" [ngClass]="t.transaction_type">
+            <ion-icon [name]="t.transaction_type === 'membership_payment' ? 'card-outline' : t.transaction_type === 'admission_fee' ? 'person-add-outline' : t.transaction_type === 'merchandise' ? 'pricetag-outline' : t.transaction_type === 'personal_training' ? 'barbell-outline' : 'cash-outline'"></ion-icon>
+          </div>
+          
+          <div class="transaction-details">
+            <div class="transaction-main">
+              <div class="transaction-title">
+                <h5>{{ t.transaction_type.replace('_', ' ') | titlecase }}</h5>
+                <span class="transaction-amount">₹{{ t.amount | number:'1.0-0' }}</span>
+              </div>
+              <p class="transaction-description">{{ t.description || 'No description' }}</p>
+            </div>
+            
+            <div class="transaction-meta">
+              <div class="meta-item">
+                <ion-icon name="time-outline"></ion-icon>
+                <span>{{ t.transaction_date | date:'MMM d, y, h:mm a' }}</span>
+              </div>
+              <div class="meta-item">
+                <ion-icon name="card-outline"></ion-icon>
+                <span>{{ t.payment_method | titlecase }}</span>
+              </div>
+              <div class="meta-item" *ngIf="t.member_name">
+                <ion-icon name="person-outline"></ion-icon>
+                <span>by {{ t.member_name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="filteredTransactions.length === 0" class="empty-state">
+        <div class="empty-icon">
+          <ion-icon name="receipt-outline"></ion-icon>
+        </div>
+        <h3>No transactions found</h3>
+        <p>Try adjusting your filters or search terms</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

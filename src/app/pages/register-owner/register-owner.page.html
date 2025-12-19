@@ -1,0 +1,190 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register Gym Owner</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="form-container" style="margin-bottom: 220px;">
+    <form [formGroup]="ownerForm" (ngSubmit)="registerOwner()">
+
+      <!-- Owner Details Section -->
+      <div class="section-card">
+        <div class="section-header">
+          <ion-icon name="person-outline" color="dark"></ion-icon>
+          <h2>Owner Details</h2>
+        </div>
+        <ion-list lines="none" class="form-list">
+          <ion-item class="form-item">
+            <ion-input
+              label="First Name"
+              labelPlacement="floating"
+              formControlName="first_name"
+              type="text"
+              required
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+          <div *ngIf="f['first_name'].touched && f['first_name'].invalid" class="error-message">
+            <small>First name is required</small>
+          </div>
+
+          <ion-item class="form-item">
+            <ion-input
+              label="Last Name"
+              labelPlacement="floating"
+              formControlName="last_name"
+              type="text"
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+
+          
+          <ion-item class="form-item">
+            <ion-input
+              label="Phone"
+              labelPlacement="floating"
+              formControlName="phone"
+              type="tel"
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-input
+              label="Email"
+              labelPlacement="floating"
+              formControlName="email"
+              type="email"
+              required
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+          <div *ngIf="f['email'].touched && f['email'].invalid" class="error-message">
+            <small *ngIf="f['email'].errors?.['required']">Email is required</small>
+            <small *ngIf="f['email'].errors?.['email']">Invalid email format</small>
+          </div>
+
+          <ion-item class="form-item">
+            <ion-input
+              label="Create Password"
+              labelPlacement="floating"
+              formControlName="password"
+              type="password"
+              required
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+          <div *ngIf="f['password'].touched && f['password'].invalid" class="error-message">
+            <small *ngIf="f['password'].errors?.['required']">Password is required</small>
+            <small *ngIf="f['password'].errors?.['minlength']">Must be at least 6 characters</small>
+          </div>
+        </ion-list>
+      </div>
+
+      <!-- Gym Details Section -->
+      <div class="section-card">
+        <div class="section-header">
+          <ion-icon name="business-outline" color="dark"></ion-icon>
+          <h2>Gym Details</h2>
+        </div>
+        <ion-list lines="none" class="form-list">
+          <ion-item class="form-item">
+            <ion-input
+              label="Gym Name"
+              labelPlacement="floating"
+              formControlName="gym_name"
+              type="text"
+              required
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+          <div *ngIf="f['gym_name'].touched && f['gym_name'].invalid" class="error-message">
+            <small>Gym name is required</small>
+          </div>
+
+          <ion-item class="form-item">
+            <ion-input
+              label="Contact Email"
+              labelPlacement="floating"
+              formControlName="contact_email"
+              type="email"
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+          <div *ngIf="f['contact_email'].touched && f['contact_email'].invalid" class="error-message">
+            <small>Invalid email format</small>
+          </div>
+
+          <ion-item class="form-item">
+            <ion-input
+              label="Contact Phone"
+              labelPlacement="floating"
+              formControlName="contact_phone"
+              type="tel"
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-input
+              label="Address"
+              labelPlacement="floating"
+              formControlName="address"
+              type="text"
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-input
+              label="City"
+              labelPlacement="floating"
+              formControlName="city"
+              type="text"
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-input
+              label="State"
+              labelPlacement="floating"
+              formControlName="state"
+              type="text"
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <!-- Terms & Conditions -->
+      <div class="terms-container">
+        <ion-checkbox formControlName="termsAccepted"></ion-checkbox>
+        <p class="terms-text">
+          I accept the <a (click)="openTerms()">terms & conditions</a> and
+          the <a (click)="openPrivacy()">privacy policy</a>
+        </p>
+      </div>
+      <div *ngIf="f['termsAccepted'].touched && f['termsAccepted'].invalid" class="error-message">
+        <small>You must accept the terms</small>
+      </div>
+
+      <!-- Submit Button -->
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="isLoading || ownerForm.invalid"
+        class="submit-button">
+        <ion-icon *ngIf="!isLoading" name="person-add-outline" slot="start"></ion-icon>
+        <ion-spinner *ngIf="isLoading"></ion-spinner>
+        <ion-text *ngIf="!isLoading">Register Gym</ion-text>
+      </ion-button>
+
+      <div class="safe-area"></div>
+    </form>
+  </div>
+</ion-content>

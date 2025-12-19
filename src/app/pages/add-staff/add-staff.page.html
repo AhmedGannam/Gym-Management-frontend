@@ -1,0 +1,125 @@
+<ion-header>
+  <app-toolbar [role]="'owner'" [title]="'Add Staff'" [showBackButton]="true"></app-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="form-container">
+    <form [formGroup]="staffForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Staff Details Section -->
+      <div class="section-card">
+        <div class="section-header">
+          <ion-icon name="people-outline" color="dark"></ion-icon>
+          <h2>Staff Information</h2>
+        </div>
+        
+        <ion-list lines="none" class="form-list">
+          <ion-item class="form-item">
+            <ion-input 
+              label="First Name" 
+              labelPlacement="floating" 
+              formControlName="first_name" 
+              type="text" 
+              required
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-input 
+              label="Last Name" 
+              labelPlacement="floating" 
+              formControlName="last_name" 
+              type="text"
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-input 
+              label="Email" 
+              labelPlacement="floating" 
+              formControlName="email" 
+              type="email" 
+              required
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-input 
+              label="Phone" 
+              labelPlacement="floating" 
+              formControlName="phone" 
+              type="tel" 
+              required
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-input 
+              label="Password" 
+              labelPlacement="floating" 
+              formControlName="password" 
+              type="password" 
+              required
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <!-- Role & Additional Info Section -->
+      <div class="section-card">
+        <div class="section-header">
+          <ion-icon name="briefcase-outline" color="dark"></ion-icon>
+          <h2>Role & Additional Information</h2>
+        </div>
+        
+        <ion-list lines="none" class="form-list">
+          <ion-item class="form-item">
+            <ion-input 
+              label="Staff Role" 
+              labelPlacement="floating" 
+              formControlName="staff_role" 
+              type="text"
+              class="custom-input">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-textarea 
+              label="Notes" 
+              labelPlacement="floating" 
+              formControlName="notes" 
+              rows="3"
+              class="custom-input">
+            </ion-textarea>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <ion-button 
+        expand="block" 
+        type="submit" 
+        [disabled]="staffForm.invalid || loading"
+        class="submit-button">
+        <ion-icon name="person-add-outline" slot="start"></ion-icon>
+        Add Staff
+      </ion-button>
+
+      <!-- Status Messages -->
+      <div class="status-messages" *ngIf="errorMessage || successMessage">
+        <ion-text color="danger" *ngIf="errorMessage" class="status-text error-text">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          {{ errorMessage }}
+        </ion-text>
+        <ion-text color="success" *ngIf="successMessage" class="status-text success-text">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          {{ successMessage }}
+        </ion-text>
+      </div>
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,381 @@
+<ion-header>
+  <app-toolbar [role]="'owner'" [title]="'Member Details'" [showBackButton]="true"></app-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="member-details-page ion-padding">
+
+  <!-- Custom Loading Animation -->
+  <div *ngIf="loading" class="loader-container">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading Member Details...</div>
+  </div>
+
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="!loading && !error && member" class="slide-in-left">
+    <!-- Main Container for Two Columns -->
+    <div class="main-container">
+      <!-- Left Column - Photo & Member Info -->
+      <div class="left-column">
+        <!-- Enhanced Photo Upload Section -->
+        <div class="photo-container">
+          <img [src]="member.photo || '../../../assets/avatar.png'" class="member-photo" alt="Member Photo">
+          <input type="file" accept="image/*" hidden #fileInput (change)="uploadPhoto(member, $event)">
+
+          <div class="photo-actions">
+            <!-- Camera button for mobile/camera -->
+            <ion-button fill="clear" size="small" class="camera-button" (click)="takePhoto(member)">
+              <ion-icon name="camera"></ion-icon>
+            </ion-button>
+            <!-- Upload button for manual file selection -->
+            <ion-button fill="clear" class="upload-button" size="small" (click)="fileInput.click()">
+              <ion-icon name="cloud-upload"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+
+        <!-- Enhanced Member Info Card -->
+        <ion-card class="detail-card member-info-card slide-in-right">
+          <ion-card-header>
+            <ion-card-title>
+              <ion-icon name="person-circle"></ion-icon>
+              {{ member.first_name }} {{ member.last_name }}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="info-item">
+              <span class="info-label">Phone:</span>
+              <strong>{{ member.phone }}</strong>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Email:</span>
+              <strong>{{ member.email }}</strong>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Membership Status:</span>
+              <span class="status-badge"
+                [ngClass]="member.current_membership?.status === 'active' ? 'status-active' : 'status-inactive'">
+                {{ member.current_membership ? (member.current_membership.status | titlecase) : 'No Membership' }}
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Joined:</span>
+              <span>{{ member.join_date | date:'mediumDate' }}</span>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <!-- Right Column - Forms & Data -->
+      <div class="right-column">
+        <!-- Enhanced Add Membership Button -->
+        <ion-button expand="block" color="primary" class="action-button" [disabled]="isMembershipActive"
+          (click)="toggleAddMembershipForm()">
+          <ion-icon [name]="showAddMembershipForm ? 'close-circle' : 'add-circle'" slot="start"></ion-icon>
+          {{ showAddMembershipForm ? 'Cancel' : 'Add Membership' }}
+        </ion-button>
+
+        <!-- Enhanced Membership Form -->
+        <div *ngIf="showAddMembershipForm" class="membership-form">
+          <form (ngSubmit)="addMembership()">
+            <!-- Plan Selection Section -->
+            <div class="form-section">
+              <div class="form-section-title">
+                <ion-icon name="fitness-outline"></ion-icon>
+                Membership Plan
+              </div>
+
+              <ion-item class="form-item">
+                <ion-label>Select Plan</ion-label>
+                <ion-select [(ngModel)]="addMembershipData.plan_id" name="plan_id" required (ionChange)="onPlanChange()">
+                  <ion-select-option *ngFor="let plan of membershipPlans" [value]="plan.plan_id">
+                    {{ plan.plan_name }} ({{ plan.duration_months }} months - ₹{{ plan.price }})
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <div *ngIf="addMembershipData.plan_id" class="price-display">
+                <ion-icon name="pricetag"></ion-icon>
+                Plan Price: ₹{{ selectedPlanPrice }}
+              </div>
+            </div>
+
+            <!-- Date Section -->
+            <div class="form-section">
+              <div class="form-section-title">
+                <ion-icon name="calendar-outline"></ion-icon>
+                Duration
+              </div>
+
+              <ion-item class="form-item">
+                <ion-label>Start Date</ion-label>
+                <ion-input [value]="addMembershipData.start_date" readonly class="readonly-input"></ion-input>
+              </ion-item>
+
+              <ion-item class="form-item">
+                <ion-label>End Date</ion-label>
+                <ion-input [value]="addMembershipData.end_date" readonly class="readonly-input"></ion-input>
+              </ion-item>
+            </div>
+
+            <!-- Payment Section -->
+            <div class="form-section">
+              <div class="form-section-title">
+                <ion-icon name="card-outline"></ion-icon>
+                Payment Details
+              </div>
+
+              <ion-item class="form-item">
+                <ion-label position="floating">Admission Fee</ion-label>
+                <ion-input type="number" [(ngModel)]="addMembershipData.admission_fee" name="admission_fee"></ion-input>
+              </ion-item>
+
+              <ion-item class="form-item">
+                <ion-label position="floating">Paid Amount</ion-label>
+                <ion-input type="number" [(ngModel)]="addMembershipData.paid_amount" name="paid_amount"
+                  [max]="selectedPlanPrice" [disabled]="!addMembershipData.plan_id" (ionChange)="onPaidAmountChange()"
+                  required></ion-input>
+              </ion-item>
+
+              <div class="payment-status">
+                <span>Payment Status:</span>
+                <ion-badge class="payment-status-badge"
+                  [ngClass]="addMembershipData.payment_status === 'paid' ? 'status-paid' : 'status-unpaid'">
+                  {{ addMembershipData.payment_status | titlecase }}
+                </ion-badge>
+              </div>
+
+              <ion-item class="form-item">
+                <ion-label position="floating">Payment Method</ion-label>
+                <ion-select [(ngModel)]="addMembershipData.payment_method" name="payment_method" required>
+                  <ion-select-option value="cash">💵 Cash</ion-select-option>
+                  <ion-select-option value="upi">📱 UPI</ion-select-option>
+                  <ion-select-option value="card">💳 Card</ion-select-option>
+                  <ion-select-option value="bank_transfer">🏦 Bank Transfer</ion-select-option>
+                  <ion-select-option value="online_gateway">🌐 Online Gateway</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item class="form-item">
+                <ion-label position="floating">Transaction Type</ion-label>
+                <ion-select [(ngModel)]="addMembershipData.transaction_type" name="transaction_type" required>
+                  <ion-select-option value="membership_payment">Membership Payment</ion-select-option>
+                  <ion-select-option value="admission_fee">Admission Fee</ion-select-option>
+                  <ion-select-option value="personal_training">Personal Training</ion-select-option>
+                  <ion-select-option value="other_fee">Other Fee</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+
+            <ion-button expand="block" type="submit" color="secondary" class="submit-button">
+              <ion-icon name="add-circle" slot="start"></ion-icon>
+              Add Membership
+            </ion-button>
+          </form>
+        </div>
+
+        <!-- Enhanced Personal Training Form -->
+        <ion-button expand="block" color="primary" class="action-button" (click)="toggleAddPersonalMembershipForm()" [disabled]="isPersonalTrainingActive">
+          <ion-icon [name]="showAddPersonalMembershipForm ? 'close-circle' : 'add-circle'" slot="start"></ion-icon>
+          {{ showAddPersonalMembershipForm ? 'Cancel' : 'Add Personal Membership' }}
+        </ion-button>
+
+        <ion-card>
+          <div *ngIf="showAddPersonalMembershipForm" class="membership-form">
+            <ion-card-content>
+              <form [formGroup]="personalTrainingForm" (ngSubmit)="onAddPersonalTraining()">
+                <div class="form-section">
+                  <div class="form-section-title">
+                    <ion-icon name="time-outline"></ion-icon>
+                    Training Details
+                  </div>
+
+                  <ion-item class="form-item">
+                    <ion-label position="floating">Duration (Months)</ion-label>
+                    <ion-input type="number" formControlName="duration_months" required></ion-input>
+                  </ion-item>
+
+                  <ion-item class="form-item">
+                    <ion-label position="floating">Price</ion-label>
+                    <ion-input type="number" formControlName="price" required></ion-input>
+                  </ion-item>
+
+                  <ion-item class="form-item">
+                    <ion-label position="floating">Trainer</ion-label>
+                    <ion-select formControlName="staff_id">
+                      <ion-select-option *ngFor="let staff of staffList" [value]="staff.staff_id">
+                        {{ staff.first_name }} {{ staff.last_name }} ({{ staff.staff_role }})
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </div>
+
+                <div class="form-section">
+                  <div class="form-section-title">
+                    <ion-icon name="card-outline"></ion-icon>
+                    Payment Information
+                  </div>
+
+                  <ion-item class="form-item">
+                    <ion-label position="floating">Payment Method</ion-label>
+                    <ion-select formControlName="payment_method">
+                      <ion-select-option value="cash">💵 Cash</ion-select-option>
+                      <ion-select-option value="upi">📱 UPI</ion-select-option>
+                      <ion-select-option value="card">💳 Card</ion-select-option>
+                      <ion-select-option value="bank_transfer">🏦 Bank Transfer</ion-select-option>
+                      <ion-select-option value="online_gateway">🌐 Online Gateway</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+
+                  <ion-item class="form-item">
+                    <ion-label position="floating">Notes</ion-label>
+                    <ion-textarea formControlName="notes" rows="3"></ion-textarea>
+                  </ion-item>
+                </div>
+
+                <ion-button expand="block" type="submit" class="submit-button"
+                  [disabled]="personalTrainingForm.invalid || isPersonalTrainingActive">
+                  <ion-icon name="add-circle" slot="start"></ion-icon>
+                  Add Personal Training
+                </ion-button>
+
+                <ion-text color="warning" *ngIf="isPersonalTrainingActive">
+                  <div
+                    style="text-align: center; padding: 12px; background: rgba(255, 193, 7, 0.1); border-radius: 8px; margin-top: 12px;">
+                    <ion-icon name="warning"></ion-icon>
+                    Member already has an active personal training package.
+                  </div>
+                </ion-text>
+              </form>
+            </ion-card-content>
+          </div>
+        </ion-card>
+
+        <!-- Cards Container for Side-by-Side Layout -->
+        <div class="cards-container">
+          <!-- Enhanced Memberships Card -->
+          <ion-card class="detail-card list-card slide-in-left">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="card-outline"></ion-icon>
+                Memberships
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div *ngIf="memberships.length > 0">
+                <ion-item *ngFor="let m of memberships" class="list-item">
+                  <ion-label>
+                    <div class="item-header">
+                      <ion-icon name="fitness" style="color: #667eea;"></ion-icon>
+                      {{ m.MembershipPlan?.plan_name || m.plan_id }}
+                    </div>
+                    <div class="item-detail">
+                      <ion-icon name="calendar" style="color: #2196F3;"></ion-icon>
+                      Duration: {{ m.start_date | date:'mediumDate' }} - {{ m.end_date | date:'mediumDate' }}
+                    </div>
+                    <div class="item-detail">
+                      <ion-icon name="checkmark-circle" *ngIf="m.status === 'active'" style="color: #4CAF50;"></ion-icon>
+                      <ion-icon name="time" *ngIf="m.status === 'expired'" style="color: #FF9800;"></ion-icon>
+                      <ion-icon name="close-circle" *ngIf="m.status === 'inactive'" style="color: #F44336;"></ion-icon>
+                      Status: <span class="status-badge"
+                        [ngClass]="m.status === 'active' ? 'status-active' : m.status === 'expired' ? 'status-expired' : 'status-inactive'">{{ m.status | titlecase }}</span>
+                    </div>
+                    <div class="item-detail">
+                      <ion-icon name="cash" style="color: #4CAF50;"></ion-icon>
+                      Amount Paid: <strong>₹{{ m.actual_price_paid }}</strong>
+                    </div>
+                  </ion-label>
+                </ion-item>
+              </div>
+              <div *ngIf="memberships.length === 0" class="empty-state">
+                <ion-icon name="card-outline"></ion-icon>
+                <p>No memberships found.</p>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Enhanced Personal Training Section -->
+          <ion-card class="personal-training-card slide-in-right">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="fitness"></ion-icon>
+                Personal Training History
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ng-container *ngIf="personalTrainings.length > 0; else noPT">
+                <div class="pt-item" *ngFor="let pt of personalTrainings || []">
+                  <h2>{{ pt.duration_months }} month(s) - ₹{{ pt.price }}</h2>
+                  <p>
+                    <ion-icon name="checkmark-circle" *ngIf="pt.status === 'active'" style="color: #4CAF50;"></ion-icon>
+                    <ion-icon name="time" *ngIf="pt.status !== 'active'" style="color: #FF9800;"></ion-icon>
+                    <b>Status:</b> {{ pt.status | titlecase }}<br>
+                    <ion-icon name="calendar" style="color: #2196F3;"></ion-icon>
+                    <b>Duration:</b> {{ pt.start_date }} to {{ pt.end_date }}<br>
+                    <ion-icon name="person" style="color: #9C27B0;"></ion-icon>
+                    <b>Trainer:</b> {{ pt.Trainer?.first_name }} {{ pt.Trainer?.last_name }} ({{ pt.Trainer?.staff_role }})
+                  </p>
+                  <p *ngIf="pt.notes">
+                    <ion-icon name="document-text" style="color: #607D8B;"></ion-icon>
+                    <b>Notes:</b> {{ pt.notes }}
+                  </p>
+                </div>
+              </ng-container>
+              <ng-template #noPT>
+                <div class="empty-state">
+                  <ion-icon name="barbell"></ion-icon>
+                  <p>No personal training records for this member.</p>
+                </div>
+              </ng-template>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <!-- Enhanced Transactions Card -->
+        <ion-card class="detail-card list-card slide-in-right">
+          <ion-card-header>
+            <ion-card-title>
+              <ion-icon name="receipt-outline"></ion-icon>
+              Transaction History
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="transaction-card" *ngIf="transactions.length > 0">
+              <ion-item *ngFor="let t of transactions" class="list-item">
+                <ion-label>
+                  <div class="item-header">
+                    <ion-icon name="receipt" style="color: #667eea;"></ion-icon>
+                    {{ t.transaction_type | titlecase }} - ₹{{ t.amount }}
+                  </div>
+                  <div class="item-detail">
+                    <ion-icon name="document-text" style="color: #607D8B;"></ion-icon>
+                    {{ t.description }}
+                  </div>
+                  <div class="item-detail">
+                    <ion-icon name="calendar" style="color: #2196F3;"></ion-icon>
+                    Date: {{ t.transaction_date | date:'medium' }}
+                  </div>
+                  <div class="item-detail">
+                    <ion-icon name="card" style="color: #9C27B0;"></ion-icon>
+                    Method: {{ t.payment_method | titlecase }}
+                  </div>
+                </ion-label>
+              </ion-item>
+            </div>
+            <div *ngIf="transactions.length === 0" class="empty-state">
+              <ion-icon name="receipt-outline"></ion-icon>
+              <p>No transactions found.</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="fab-container">
+      <ion-button class="fab-button" (click)="fetchMemberDetails()">
+        <ion-icon name="refresh"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

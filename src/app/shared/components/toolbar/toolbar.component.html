@@ -1,0 +1,27 @@
+<ion-header class="ion-safe-area-top">
+  <ion-toolbar class="dashboard-toolbar">
+    <ion-buttons slot="start">
+      <ng-container *ngIf="showBackButton; else logoBlock">
+        <ion-button fill="clear" (click)="goBack()">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-button>
+      </ng-container>
+      <ng-template #logoBlock>
+        <!-- Empty logo template -->
+      </ng-template>
+    </ion-buttons>
+    <div class="toolbar-title">{{ title }}</div>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="role === 'owner'" (click)="openQuickActions()">
+        <ion-icon slot="icon-only" name="apps-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="role === 'owner'" (click)="openNotifications()" class="notification-btn">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+        <ion-badge *ngIf="unreadCount > 0" class="notification-badge">{{ unreadCount > 99 ? '99+' : unreadCount }}</ion-badge>
+      </ion-button>
+      <ion-button (click)="openProfileMenu()">
+        <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

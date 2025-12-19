@@ -1,0 +1,170 @@
+
+  .form-container, .modal-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .section-card {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f0f0;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .section-header ion-icon {
+    margin-right: 12px;
+    font-size: 24px;
+  }
+
+  .section-header h2 {
+    margin: 0;
+    color: #000000;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .add-plan-button {
+    --background: #000000;
+    --color: #ffffff;
+    --border-radius: 12px;
+    height: 50px;
+    font-weight: 600;
+  }
+
+  .add-plan-button:hover {
+    --background: #333333;
+  }
+
+  .plans-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .plan-card {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    transition: all 0.2s ease;
+  }
+
+  .plan-card:hover {
+    border-color: #000000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .plan-header h3 {
+    margin: 0;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .status-badge {
+    font-size: 12px;
+  }
+
+  .plan-description {
+    color: #666666;
+    margin: 8px 0;
+    font-size: 14px;
+  }
+
+  .plan-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .detail-item {
+    display: flex;
+    align-items: center;
+    color: #000000;
+    font-size: 14px;
+  }
+
+  .detail-item ion-icon {
+    margin-right: 6px;
+    font-size: 16px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .empty-state ion-icon {
+    margin-bottom: 16px;
+  }
+
+  .empty-state h3 {
+    color: #000000;
+    margin: 0 0 8px 0;
+  }
+
+  .empty-state p {
+    color: #666666;
+    margin: 0;
+  }
+
+  .form-list {
+    background: transparent;
+  }
+
+  .form-item {
+    --background: #ffffff;
+    --border-color: #e0e0e0;
+    --border-width: 1px;
+    --border-style: solid;
+    --border-radius: 8px;
+    margin-bottom: 16px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }
+
+  .form-item:hover {
+    --border-color: #000000;
+  }
+
+  .toggle-item {
+    --border-color: #e0e0e0;
+  }
+
+  .custom-input, .custom-select {
+    --color: #000000;
+    --placeholder-color: #666666;
+  }
+
+  .submit-button {
+    --background: #000000;
+    --color: #ffffff;
+    --border-radius: 12px;
+    margin-top: 24px;
+    height: 50px;
+    font-weight: 600;
+  }
+
+  .submit-button:hover {
+    --background: #333333;
+  }
+
+  ion-note {
+    font-size: 12px;
+  }

@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Notifications</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="markAllAsRead()" [disabled]="notifications.length === 0">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="refresh()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scroll-y="true" >
+  <div class="notification-container">
+    <!-- Loading spinner -->
+    <div *ngIf="loading && notifications.length === 0" class="loading-container">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Loading notifications...</p>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!loading && notifications.length === 0" class="empty-state">
+      <ion-icon name="notifications-off-outline" class="empty-icon"></ion-icon>
+      <h3>No notifications</h3>
+      <p>You don't have any notifications yet.</p>
+    </div>
+
+    <!-- Notifications list -->
+    <div *ngIf="notifications.length > 0" class="notifications-list">
+      <ion-card *ngFor="let notification of notifications" 
+                [class.unread]="notification.status === 'sent'"
+                class="notification-card">
+        <ion-card-header>
+          <ion-card-title class="notification-title">
+            <ion-icon name="notifications-outline"></ion-icon>
+            Notification
+          </ion-card-title>
+          <ion-card-subtitle class="notification-date">
+            {{ formatNotificationDate(notification.created_at) }}
+          </ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p class="notification-message">{{ notification.message }}</p>
+          
+          <!-- Member info if available -->
+          <div *ngIf="notification.Member" class="member-info">
+            <ion-chip color="primary" size="small">
+              <ion-icon name="person-outline"></ion-icon>
+              <ion-label>{{ notification.Member.first_name }} {{ notification.Member.last_name }}</ion-label>
+            </ion-chip>
+          </div>
+
+          <!-- Membership info if available -->
+          <div *ngIf="notification.Membership" class="membership-info">
+            <ion-chip color="secondary" size="small">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <ion-label>Expires: {{ notification.Membership.end_date | date:'shortDate' }}</ion-label>
+            </ion-chip>
+          </div>
+
+          <!-- Status indicators -->
+          <div class="status-indicators">
+            <ion-chip *ngIf="notification.status === 'read'" color="success" size="small">
+              <ion-icon name="checkmark-circle-outline"></ion-icon>
+              <ion-label>Read</ion-label>
+            </ion-chip>
+            <ion-chip *ngIf="notification.status === 'sent'" color="warning" size="small">
+              <ion-icon name="mail-unread-outline"></ion-icon>
+              <ion-label>Unread</ion-label>
+            </ion-chip>
+          </div>
+        </ion-card-content>
+
+        <ion-footer class="notification-actions">
+          <ion-button *ngIf="notification.status === 'sent'" 
+                     fill="clear" 
+                     size="small"
+                     (click)="markAsRead(notification)">
+            <ion-icon name="checkmark-outline"></ion-icon>
+            Mark as Read
+          </ion-button>
+          <ion-button fill="clear" 
+                     size="small" 
+                     color="danger"
+                     (click)="deleteNotification(notification)">
+            <ion-icon name="trash-outline"></ion-icon>
+            Delete
+          </ion-button>
+        </ion-footer>
+      </ion-card>
+
+      <!-- Load more button -->
+      <div *ngIf="hasMoreNotifications" class="load-more-container">
+        <ion-button *ngIf="!loading" 
+                   fill="outline" 
+                   expand="block"
+                   (click)="loadMoreNotifications()">
+          <ion-icon name="arrow-down-outline"></ion-icon>
+          Load More
+        </ion-button>
+        <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+      </div>
+    </div>
+  </div>
+</ion-content> 

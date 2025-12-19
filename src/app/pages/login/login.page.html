@@ -1,0 +1,60 @@
+<ion-content class="ion-padding">
+
+  <div class="login-wrapper">
+    <div class="form-container">
+      <div class="form-logo">
+        <img src="../../../assets/icon/brandLogo.jpg" alt="GymNet Logo">
+      </div>
+
+      <form (ngSubmit)="login()">
+        <div class="input-group">
+          <input class="input-field" type="email" name="email" placeholder="Email Address" [(ngModel)]="email" required>
+
+        </div>
+
+        <div class="input-group">
+          <input class="input-field" type="password" name="password" placeholder="Password" [(ngModel)]="password"
+            required>
+
+        </div>
+
+        <div class="demo-note" *ngIf="showDemoNote">
+          <div class="note-content">
+            <p>First login may take a few seconds as the server spins up on Render</p>
+            <p>For demo purposes, use:</p>
+            <p><strong>Email:</strong> demo&#64;gmail.com</p>
+            <p><strong>Password:</strong> demo123</p>
+          </div>
+          <button class="dismiss-btn" (click)="showDemoNote = false">&times;</button>
+        </div>
+
+        <div class="forgot-password">
+          <a (click)="goToForgotPassword()">Forgot Password?</a>
+        </div>
+
+        <button class="login-btn" expand="block" type="submit" [disabled]="isLoading" [class.loading]="isLoading">
+          <div *ngIf="isLoading" class="loading-spinner"></div>
+          <span>{{ isLoading ? 'Signing In...' : 'Access Dashboard' }}</span>
+        </button>
+
+        <div class="divider">
+          <span>New to GymNet?</span>
+        </div>
+
+        <div class="register-section">
+          <button class="register-btn" fill="clear" expand="block" routerLink="/register-owner">
+            🏋️ Register as Gym Owner
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Motivational Section -->
+  <div class="motivation-section">
+    <p class="motivation-quote">
+      "Great gyms are built by great managers.<br>
+      Your success story starts here."
+    </p>
+  </div>
+</ion-content>

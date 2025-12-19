@@ -1,0 +1,61 @@
+<ion-header>
+  <app-toolbar [role]="'owner'" [title]="'All Members'"></app-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="search-button-container">
+    <!-- Search Input -->
+    <input type="search" placeholder="Search by Name or Phone" class="custom-search-input" (input)="onSearchChange($event)">
+    <button class="custom-add-button" (click)="goToAddMember()">
+      + Add
+    </button>
+  </div>
+  <div class="filter-row">
+    <ion-select slot="end" [(ngModel)]="selectedFilter" (ionChange)="onFilterChange()" interface="popover"
+      placeholder="Filter Members" class="filter-select">
+      <ion-select-option class="all-member" value="all">All Members</ion-select-option>
+      <ion-select-option class="Expired-member" value="expired">Expired Memberships</ion-select-option>
+    </ion-select>
+  </div>
+  <ion-spinner *ngIf="loading" name="crescent" class="ion-margin"></ion-spinner>
+  <div *ngIf="error" class="ion-text-center ion-padding">{{ error }}</div>
+
+  <ion-list *ngIf="!loading && !error" class="members-list">
+    <div *ngFor="let member of members" class="member-item" (click)="goToMemberDetails(member)">
+      <div class="member-avatar" (click)="$event.stopPropagation(); viewFullPhoto(member)">
+        <img [src]="member.photo || '../../../assets/avatar.png'" alt="Member photo">
+      </div>
+
+      <div class="member-info">
+        <!-- PERSONAL TRAINING BADGE -->
+        <div *ngIf="member.has_personal_training" class="pt-badge">
+          <ion-icon name="barbell-outline"></ion-icon>
+          PT
+        </div>
+        <h3 class="member-name">{{ member.first_name }} {{ member.last_name }}</h3>
+        <div class="member-status">
+          <span class="status-badge" [ngClass]="{
+              'status-active': member.current_membership?.status === 'active',
+              'status-expired': member.current_membership?.status === 'expired',
+              'status-cancelled': member.current_membership?.status === 'cancelled'
+            }">
+            {{ member.current_membership ? (member.current_membership.status | titlecase) : 'No Membership' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="member-actions">
+        <ion-icon name="chevron-forward-outline" class="arrow-icon" color="primary"></ion-icon>
+      </div>
+    </div>
+
+    <div *ngIf="members.length === 0" class="ion-text-center ion-padding no-members">
+      No members found.
+    </div>
+
+    <ion-button *ngIf="currentPage < totalPages && !loading" expand="block" color="secondary" class="load-more-btn"
+      (click)="loadMore()">
+      Load More
+    </ion-button>
+  </ion-list>
+</ion-content>

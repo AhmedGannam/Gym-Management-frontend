@@ -1,0 +1,126 @@
+<ion-header>
+  <app-toolbar [role]="'owner'" [title]="'Settings'" [showBackButton]="true"></app-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Gym Info Section -->
+  <div class="settings-section">
+    <div class="settings-title"><ion-icon name="business-outline"></ion-icon>Edit Gym Information</div>
+    <ion-item button lines="none" (click)="openEditModal('contact_email')">
+      <ion-label>Contact Email</ion-label>
+      <ion-note slot="end">{{ gymInfo?.contact_email }}</ion-note>
+    </ion-item>
+    <ion-item button lines="none" (click)="openEditModal('contact_phone')">
+      <ion-label>Contact Phone</ion-label>
+      <ion-note slot="end">{{ gymInfo?.contact_phone }}</ion-note>
+    </ion-item>
+    <ion-item button lines="none" (click)="openEditModal('address')">
+      <ion-label>Address</ion-label>
+      <ion-note>{{ gymInfo?.address }}</ion-note>
+    </ion-item>
+  </div>
+
+
+  <!-- Preferences Section -->
+  <div class="settings-section">
+    <div class="settings-title"><ion-icon name="moon-outline"></ion-icon> Preferences</div>
+    <ion-item lines="none">
+      <ion-label>Dark Mode</ion-label>
+      <ion-toggle slot="end" [checked]="darkMode" (ionChange)="toggleDarkMode($event)"
+        [(ngModel)]="darkMode"></ion-toggle>
+    </ion-item>
+    <ion-item lines="none" button (click)="openChangePasswordModal()">
+      <ion-label>Change Password</ion-label>
+      <ion-icon name="lock-closed-outline" slot="end"></ion-icon>
+    </ion-item>
+  </div>
+
+  <!-- WhatsApp Integration Section Removed -->
+
+  <!-- Support & About Section -->
+  <div class="settings-section">
+    <div class="settings-title"><ion-icon name="help-circle-outline"></ion-icon> Support & About</div>
+    <div class="support-links">
+      <a href="mailto:gymnetsolution@gmail.com">Contact Support</a>
+      <a href="https://gymnetsolution.com/help" target="_blank">Help Center</a>
+    </div>
+    <div class="version-section">App Version: 1.0.0</div>
+    <ion-button expand="block" class="logout-btn" (click)="logout()" color="danger">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon> Logout
+    </ion-button>
+  </div>
+
+  <!-- Edit Modal -->
+  <ion-modal [isOpen]="isEditModalOpen">
+    <ng-template>
+      <div class="settings-modal-content">
+        <div class="settings-section">
+          <div class="settings-title">
+            <ion-icon name="create-outline"></ion-icon>
+            Edit {{ editingField | titlecase }}
+            <ion-button fill="clear" slot="end" (click)="closeEditModal()">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </div>
+
+          <form [formGroup]="editForm" (ngSubmit)="saveEdit()">
+            <ion-item lines="none">
+              <ion-input [label]="editingField | titlecase" formControlName="value" required>
+              </ion-input>
+            </ion-item>
+            <ion-button expand="block" type="submit" [disabled]="editForm.invalid || loading" class="save-btn">
+              Save Changes
+            </ion-button>
+          </form>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Change Password Modal -->
+  <ion-modal [isOpen]="isChangePasswordModalOpen">
+    <ng-template>
+      <div class="settings-modal-content">
+        <div class="settings-section">
+          <div class="settings-title">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            Change Password
+            <ion-button fill="clear" slot="end" (click)="closeChangePasswordModal()">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </div>
+
+          <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword()">
+            <ion-item lines="none">
+              <ion-input type="password" label="Current Password" formControlName="currentPassword" required
+                (blur)="validateCurrentPassword()">
+              </ion-input>
+            </ion-item>
+            <ion-note *ngIf="currentPasswordValid === false" color="danger">
+              Current password is incorrect.
+            </ion-note>
+
+            <ion-item lines="none">
+              <ion-input type="password" label="New Password" formControlName="newPassword" required>
+              </ion-input>
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-input type="password" label="Confirm New Password" formControlName="confirmPassword" required>
+              </ion-input>
+            </ion-item>
+            <ion-note *ngIf="!passwordsMatch && changePasswordForm.get('confirmPassword')?.touched" color="danger">
+              Passwords do not match.
+            </ion-note>
+
+            <ion-button expand="block" type="submit"
+              [disabled]="changePasswordForm.invalid || !passwordsMatch || currentPasswordValid === false || loading"
+              class="save-btn">
+              Update Password
+            </ion-button>
+          </form>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>

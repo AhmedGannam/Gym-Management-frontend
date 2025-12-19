@@ -1,0 +1,514 @@
+/* Modern Dashboard Styles */
+
+/* Content Styling */
+.dashboard-content {
+  --padding-top: 16px;
+  --padding-bottom: 24px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  
+  ion-spinner {
+    width: 48px;
+    height: 48px;
+    --color: var(--ion-color-primary);
+  }
+  
+  p {
+    margin-top: 16px;
+    color: var(--ion-color-medium);
+    font-weight: 500;
+  }
+}
+ion-searchbar {
+  border-radius: 24px;
+  .searchbar-input-container {
+    .searchbar-input.sc-ion-searchbar-md {
+      border-radius: 24px;
+    }
+  }
+}
+/* Stats Grid - Modern Card Design */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+
+  @media (max-width: 400px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-card {
+  border-radius: 16px;
+  padding: 20px 16px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  }
+  
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    background: rgba(255,255,255,0.2);
+    
+    ion-icon {
+      font-size: 1.8rem;
+      color: white;
+    }
+  }
+  
+  .stat-content {
+    h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white;
+    }
+    
+    p {
+      margin: 4px 0 0;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.85);
+    }
+  }
+  
+  /* Color Variants */
+  &.primary {
+    background: linear-gradient(135deg, #3498db, #2c6fbb);
+  }
+  
+  &.success {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+  }
+  
+  &.warning {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+  }
+  
+  &.danger {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+  }
+
+  &.info {
+    background: linear-gradient(135deg, #5c677d, #3c4456);
+  }
+}
+
+/* Dashboard Columns */
+.dashboard-columns {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  
+  @media (min-width: 768px) {
+    flex-direction: row;
+    
+    .column {
+      flex: 1;
+      
+      &.main-column {
+        flex: 2;
+      }
+    }
+  }
+}
+
+/* Glass Card Effect */
+.glass-card {
+  border-radius: 20px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-3px);
+  }
+  
+  ion-card-header {
+    padding: 20px 20px 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    
+    ion-card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    
+    ion-card-subtitle {
+      color: #7f8c8d;
+      font-size: 0.9rem;
+    }
+  }
+  
+  ion-card-content {
+    padding: 20px;
+  }
+}
+
+/* Mini Stats Cards */
+.mini-stats {
+  display: none;
+}
+
+/* Summary Items */
+.summary-item {
+  display: none;
+}
+
+/* Progress Bar */
+.progress-container {
+  margin-top: 20px;
+  background: rgba(0,0,0,0.03);
+  border-radius: 10px;
+  padding: 15px;
+  
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    font-weight: 500;
+  }
+  
+  .progress-bar {
+    height: 10px;
+    background: #e0e6ed;
+    border-radius: 5px;
+    overflow: hidden;
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--ion-color-primary), var(--ion-color-secondary));
+      border-radius: 5px;
+      transition: width 0.5s ease;
+    }
+  }
+}
+
+/* Detail Rows */
+.detail-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  ion-icon {
+    font-size: 1.4rem;
+    margin-right: 16px;
+    color: var(--ion-color-primary);
+    min-width: 24px;
+  }
+  
+  div {
+    flex: 1;
+    
+    strong {
+      display: inline-block;
+      min-width: 100px;
+      color: #7f8c8d;
+      font-weight: 500;
+    }
+  }
+}
+
+/* Financial Summary Card Styles */
+.financial-summary-card {
+    .header-content {
+    display: flex;
+    justify-content: space-between; /* Distributes space between items */
+    align-items: center; /* Vertically aligns items in the middle */
+    width: 100%; /* Ensure it takes full width of its parent */
+  }
+  ion-card-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 20px 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+
+    ion-card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .view-details-button {
+      color: var(--ion-color-primary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      --padding-start: 8px;
+      --padding-end: 8px;
+      --min-width: 0;
+      height: 30px;
+      ion-icon {
+        color: var(--ion-color-primary);
+        margin-left: 4px;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .financial-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+
+    .metric-item {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      }
+
+      ion-icon {
+        font-size: 2rem;
+        margin-bottom: 8px;
+      }
+
+      .value {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #2c3e50;
+      }
+
+      .label {
+        font-size: 0.85rem;
+        color: #7f8c8d;
+      }
+
+      &.green {
+        background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+        
+        ion-icon { color: #2ecc71; }
+      }
+      &.blue {
+        background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(41, 128, 185, 0.1));
+        
+        ion-icon { color: #3498db; }
+      }
+      &.purple {
+        background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(142, 68, 173, 0.1));
+       
+        ion-icon { color: #9b59b6; }
+      }
+      &.orange {
+        background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(230, 126, 34, 0.1));
+        
+        ion-icon { color: #f39c12; }
+      }
+    }
+  }
+
+  .progress-container {
+    background: rgba(var(--ion-color-light-rgb), 0.5);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid rgba(255,255,255,0.7);
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #2c3e50;
+
+      span:last-child {
+        color: var(--ion-color-primary);
+      }
+    }
+
+    .progress-bar {
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      height: 10px;
+      overflow: hidden;
+
+      .progress-fill {
+        background: linear-gradient(to right, #3498db, #2c6fbb);
+        height: 100%;
+        border-radius: 10px;
+        transition: width 0.5s ease-in-out;
+      }
+    }
+  }
+}
+
+.dashboard-row {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (min-width: 1024px) {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 32px;
+
+    .financial-summary-card,
+    .chart-card {
+      flex: 1; /* Both cards take equal space */
+      min-width: 0;
+    }
+  }
+}
+
+// /* Action Buttons Section */
+// .action-container {
+//   display: grid;
+//   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+//   gap: 16px;
+//   margin-bottom: 24px;
+
+//   .action-btn {
+//     --border-radius: 12px;
+//     height: 50px;
+//     font-weight: 600;
+//     font-size: 0.95rem;
+//     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+//     transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+//     ion-icon {
+//       font-size: 1.3rem;
+//     }
+
+//     &:hover {
+//       transform: translateY(-3px);
+//       box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+//     }
+//   }
+// }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .dashboard-columns {
+    flex-direction: column;
+  }
+  .action-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .action-container {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .action-btn {
+    width: 100%;
+  }
+}
+
+/* Floating Action Button */
+.fab-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.fab-main {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  .fab-icon {
+    color: white;
+    font-size: 28px;
+    font-weight: 300;
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover, &:focus {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Action Sheet Styling */
+.custom-action-sheet {
+  --background: rgba(255, 255, 255, 0.95);
+  --backdrop-opacity: 0.6;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.action-sheet-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.action-sheet-button {
+  color: #333;
+  font-size: 1rem;
+  height: 56px;
+  --background-activated: #f5f5f5;
+}
+
+.action-sheet-icon {
+  margin-right: 15px;
+  color: #6a11cb;
+  font-size: 1.4rem;
+}
+#canvas{
+  height: 300px !important;
+}

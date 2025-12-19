@@ -1,0 +1,224 @@
+// --- Settings Page Modern Redesign ---
+.settings-section {
+  margin: 24px 0;
+  padding: 24px 20px;
+  background: var(--ion-color-light);
+  border-radius: 35px;
+  box-shadow: 0 4px 24px rgba(44,62,80,0.08);
+}
+
+.settings-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--ion-color-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-divider {
+  height: 1px;
+  background: #e0e6ed;
+  margin: 18px 0;
+  border-radius: 2px;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 18px;
+
+  .profile-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--ion-color-primary);
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .profile-info {
+    flex: 1;
+    h3 {
+      margin: 0 0 4px 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--ion-color-primary);
+    }
+    p {
+      margin: 0;
+      color: #888;
+      font-size: 0.95rem;
+    }
+  }
+  .edit-avatar-btn {
+    --background: var(--ion-color-primary);
+    --color: #fff;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.logout-btn {
+  margin-top: 18px;
+  font-weight: 600;
+  border-radius: 12px;
+}
+
+.version-section {
+  margin-top: 18px;
+  color: #888;
+  font-size: 0.95rem;
+}
+
+.support-links {
+  display: flex;
+  gap: 18px;
+  margin-top: 18px;
+  a {
+    color: var(--ion-color-primary);
+    text-decoration: underline;
+    font-size: 0.98rem;
+    &:hover {
+      color: var(--ion-color-secondary);
+    }
+  }
+}
+
+// --- Modal Polish ---
+ion-modal {
+  --background: var(--ion-color-light);
+  box-shadow: 0 8px 32px rgba(44,62,80,0.18);
+}
+
+.settings-modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+  
+  .settings-section {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    
+    .settings-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      
+      ion-button {
+        margin-left: auto;
+        --padding-start: 0;
+        --padding-end: 0;
+      }
+    }
+    
+    .save-btn {
+      margin-top: 20px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+  }
+}
+
+// Update modal background
+ion-modal {
+  --background: rgba(0, 0, 0, 0.5);
+}
+
+// --- Dark Mode ---
+body.dark {
+    .settings-modal-content .settings-section {
+    background: transparent;
+    box-shadow: 0 4px 24px rgba(24,26,32,0.25);
+    border: 1px solid #232946;
+  }
+  .settings-section {
+    background: #232946;
+    box-shadow: 0 4px 24px rgba(24,26,32,0.25);
+    border: 1px solid #232946;
+  }
+  .settings-title {
+    color: #7f8ff4;
+  }
+  .settings-divider {
+    background: #232946;
+  }
+  .profile-section .profile-info h3 {
+    color: #7f8ff4;
+  }
+  .profile-section .profile-info p {
+    color: #a1a6b4;
+  }
+  .logout-btn {
+    --background: linear-gradient(90deg, #f43f5e 0%, #facc15 100%);
+    --color: #181a20;
+  }
+  .version-section {
+    color: #a1a6b4;
+  }
+  .support-links a {
+    color: #7f8ff4;
+    &:hover {
+      color: #a1a6b4;
+    }
+  }
+  ion-modal {
+    --background: rgba(0, 0, 0, 0.5);
+
+  }
+}
+
+// WhatsApp Integration Styles
+.integration-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  &.success {
+    color: var(--ion-color-success);
+  }
+  &.warning {
+    color: var(--ion-color-warning);
+  }
+  &.error {
+    color: var(--ion-color-danger);
+  }
+}
+
+.error-message {
+  color: var(--ion-color-danger);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.success-message {
+  color: var(--ion-color-success);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+ion-spinner {
+  margin-top: 10px;
+  display: block;
+}

@@ -1,0 +1,181 @@
+<ion-header>
+  <app-toolbar [role]="'owner'" [title]="'Add Member'" [showBackButton]="true"></app-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true" [scrollEvents]="true">
+  <div class="form-container">
+    <form [formGroup]="addMemberForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Member Details Section -->
+      <div class="section-card">
+        <div class="section-header">
+          <ion-icon name="person-outline" color="dark"></ion-icon>
+          <h2>Member Details</h2>
+        </div>
+        
+        <ion-list lines="none" class="form-list">
+          <ion-item class="form-item">
+            <ion-input 
+              label="First Name" 
+              labelPlacement="floating" 
+              formControlName="first_name" 
+              type="text" 
+              required
+              class="custom-input">
+            </ion-input>
+            <ion-note slot="end" *ngIf="addMemberForm.get('first_name')?.invalid && addMemberForm.get('first_name')?.touched" color="danger">
+              Required
+            </ion-note>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-input 
+              label="Last Name" 
+              labelPlacement="floating" 
+              formControlName="last_name" 
+              type="text" 
+              required
+              class="custom-input">
+            </ion-input>
+            <ion-note slot="end" *ngIf="addMemberForm.get('last_name')?.invalid && addMemberForm.get('last_name')?.touched" color="danger">
+              Required
+            </ion-note>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-input 
+              label="Phone" 
+              labelPlacement="floating" 
+              formControlName="phone" 
+              type="tel" 
+              required
+              class="custom-input">
+            </ion-input>
+            <ion-note slot="end" *ngIf="addMemberForm.get('phone')?.invalid && addMemberForm.get('phone')?.touched" color="danger">
+              Required
+            </ion-note>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-input 
+              label="Email" 
+              labelPlacement="floating" 
+              formControlName="email" 
+              type="email" 
+              required
+              class="custom-input">
+            </ion-input>
+            <ion-note slot="end" *ngIf="addMemberForm.get('email')?.invalid && addMemberForm.get('email')?.touched" color="danger">
+              Required & Valid Email
+            </ion-note>
+          </ion-item>
+          
+        </ion-list>
+      </div>
+
+      <!-- Membership & Payment Section -->
+      <div class="section-card">
+        <div class="section-header">
+          <ion-icon name="card-outline" color="dark"></ion-icon>
+          <h2>Membership & Payment</h2>
+        </div>
+        
+        <ion-list lines="none" class="form-list">
+          <ion-item class="form-item">
+            <ion-select 
+              label="Select Membership Plan (Optional)" 
+              labelPlacement="floating" 
+              formControlName="selected_plan_id" 
+              placeholder="No Plan Selected" 
+              (ionChange)="onPlanChange($event.detail.value)"
+              class="custom-select">
+              <ion-select-option [value]="null">No Membership Plan</ion-select-option>
+              <ion-select-option *ngFor="let plan of membershipPlans" [value]="plan.plan_id">
+                {{ plan.plan_name }} ({{ plan.duration_months }} months - ₹{{ plan.price | number:'1.2-2' }})
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ng-container *ngIf="addMemberForm.get('selected_plan_id')?.value">
+            <ion-item class="form-item readonly-item">
+              <ion-label>Start Date</ion-label>
+              <ion-input [value]="addMemberForm.get('start_date')?.value" readonly class="readonly-input"></ion-input>
+            </ion-item>
+            <ion-item class="form-item readonly-item">
+              <ion-label>End Date</ion-label>
+              <ion-input [value]="addMemberForm.get('end_date')?.value" readonly class="readonly-input"></ion-input>
+            </ion-item>
+            <ion-item class="form-item readonly-item">
+              <ion-label>Paid Amount (for Plan)</ion-label>
+              <ion-input [value]="addMemberForm.get('paid_amount')?.value" readonly class="readonly-input"></ion-input>
+            </ion-item>
+          </ng-container>
+
+          <ion-item class="form-item">
+            <ion-input 
+              label="Admission Fee (Optional)" 
+              labelPlacement="floating" 
+              formControlName="admission_fee" 
+              type="number"
+              class="custom-input">
+            </ion-input>
+            <ion-note slot="end" *ngIf="addMemberForm.get('admission_fee')?.invalid && addMemberForm.get('admission_fee')?.touched" color="danger">
+              Non-negative number
+            </ion-note>
+          </ion-item>
+
+          <ng-container *ngIf="showPaymentFields()">
+            <ion-item class="form-item">
+              <ion-select 
+                label="Payment Method" 
+                labelPlacement="floating" 
+                formControlName="payment_method"
+                class="custom-select">
+                <ion-select-option *ngFor="let method of paymentMethods" [value]="method">{{ method | titlecase }}</ion-select-option>
+              </ion-select>
+              <ion-note slot="end" *ngIf="addMemberForm.get('payment_method')?.invalid && addMemberForm.get('payment_method')?.touched" color="danger">
+                Required
+              </ion-note>
+            </ion-item>
+            
+            <ion-item class="form-item">
+              <ion-select 
+                label="Transaction Type" 
+                labelPlacement="floating" 
+                formControlName="transaction_type"
+                class="custom-select">
+                <ion-select-option *ngFor="let type of transactionTypes" [value]="type">{{ type | titlecase }}</ion-select-option>
+              </ion-select>
+              <ion-note slot="end" *ngIf="addMemberForm.get('transaction_type')?.invalid && addMemberForm.get('transaction_type')?.touched" color="danger">
+                Required
+              </ion-note>
+            </ion-item>
+            
+            <ion-item class="form-item">
+              <ion-select 
+                label="Membership Payment Status" 
+                labelPlacement="floating" 
+                formControlName="payment_status"
+                class="custom-select">
+                <ion-select-option *ngFor="let status of memberPaymentStatus" [value]="status">{{ status | titlecase }}</ion-select-option>
+              </ion-select>
+              <ion-note slot="end" *ngIf="addMemberForm.get('payment_status')?.invalid && addMemberForm.get('payment_status')?.touched" color="danger">
+                Required
+              </ion-note>
+            </ion-item>
+          </ng-container>
+        </ion-list>
+      </div>
+
+      <ion-button 
+        expand="block" 
+        type="submit" 
+        [disabled]="addMemberForm.invalid"
+        class="submit-button">
+        <ion-icon name="person-add-outline" slot="start"></ion-icon>
+        Add Member
+      </ion-button>
+    </form>
+    <div style="height: 40px;"></div>
+  </div>
+</ion-content>

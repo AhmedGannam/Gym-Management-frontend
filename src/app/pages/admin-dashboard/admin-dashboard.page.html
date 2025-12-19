@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Admin Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="loadPendingOwners(); $event.target.complete()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <h2 class="section-title">Pending Approvals</h2>
+
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+    <p>Loading requests...</p>
+  </div>
+
+  <div *ngIf="!isLoading && pendingOwners.length === 0" class="empty-state ion-text-center ion-padding">
+    <ion-icon name="checkmark-circle-outline" style="font-size: 48px; color: var(--ion-color-success)"></ion-icon>
+    <p>No pending approvals.</p>
+  </div>
+
+  <ion-list *ngIf="!isLoading && pendingOwners.length > 0">
+    <ion-card *ngFor="let owner of pendingOwners">
+      <ion-card-header>
+        <ion-card-title>{{ owner.Gym.gym_name }}</ion-card-title>
+        <ion-card-subtitle>{{ owner.first_name }} {{ owner.last_name }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Email:</strong> {{ owner.email }}</p>
+        <p><strong>Phone:</strong> {{ owner.phone }}</p>
+        <p><strong>Location:</strong> {{ owner.Gym.city }}, {{ owner.Gym.state }}</p>
+        <p><strong>Date:</strong> {{ owner.created_at | date:'medium' }}</p>
+
+        <div class="actions ion-margin-top">
+          <ion-button color="success" expand="block" (click)="approve(owner.user_id)">Approve</ion-button>
+          <ion-button color="danger" fill="outline" expand="block" (click)="reject(owner.user_id)">Reject</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

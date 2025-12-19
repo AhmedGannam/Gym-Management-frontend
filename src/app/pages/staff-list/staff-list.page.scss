@@ -1,0 +1,189 @@
+// Staff List Page Modern Styles
+
+.staff-list-content {
+  padding: 16px;
+}
+
+.staff-list-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 18px;
+}
+
+.staff-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.staff-card {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(127,143,244,0.08);
+  border: 1px solid rgba(127,143,244,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-height: 120px;
+  .staff-avatar {
+    margin-right: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  width: 100px; // Was 56px
+  height: 100px; // Was 56px
+
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7f8ff4 0%, #232946 100%);
+    box-shadow: 0 2px 8px rgba(127,143,244,0.12);
+    position: relative;
+    ion-icon {
+      color: #fff;
+      font-size: 2.5rem;
+    }
+    .staff-photo-img {
+    width: 100%; // Was 100px
+  height: 100%; //
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #7f8ff4;
+      background: #fff;
+    }
+    .upload-photo-btn {
+      position: absolute;
+      bottom: -8px;
+      right: -8px;
+      --padding-start: 0;
+      --padding-end: 0;
+      border-radius: 50px;
+      width: 28px;
+      height: 28px;
+      font-size: 1.1rem;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(127,143,244,0.12);
+      z-index: 2;
+      ion-icon {
+        color: #7f8ff4;
+        font-size: 1.2rem;
+      }
+    }
+  }
+  .staff-info {
+    flex: 1;
+    h2 {
+      margin: 0 0 6px 0;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #232946;
+    }
+    p {
+      margin: 0 0 2px 0;
+      font-size: 0.98rem;
+      color: #5c677d;
+      display: flex;
+      align-items: center;
+      ion-icon {
+        margin-right: 6px;
+        color: #7f8ff4;
+        font-size: 1.1rem;
+      }
+    }
+  }
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(127,143,244,0.15);
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  ion-spinner {
+    width: 40px;
+    height: 40px;
+    --color: var(--ion-color-primary);
+  }
+  p {
+    margin-top: 14px;
+    color: var(--ion-color-medium);
+    font-weight: 500;
+  }
+}
+
+.empty-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 48px;
+  color: #a1a6b4;
+  ion-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #7f8ff4;
+  }
+  p {
+    font-size: 1.1rem;
+    color: #a1a6b4;
+  }
+}
+.fab-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+
+  .fab-button {
+    --background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);;
+    --border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    ion-icon {
+      font-size: 24px;
+    }
+  }
+}
+.add-icon{
+  margin-left: 5px;
+}
+
+// Glass card effect for dark mode
+body.dark .staff-card {
+  background: linear-gradient(135deg, #232946 60%, #181a20 100%);
+  color: #f4f4f5;
+  border: 1px solid #232946;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  .staff-info h2, .staff-info p {
+    color: #f4f4f5;
+  }
+  .staff-avatar {
+    background: linear-gradient(135deg, #7f8ff4 0%, #232946 100%);
+    ion-icon {
+      color: #fff;
+    }
+  }
+}
+
+body.dark .add-staff-btn {
+  background: linear-gradient(90deg, #7f8ff4 0%, #232946 100%);
+  color: #f4f4f5;
+}
+
+@media (max-width: 600px) {
+  .staff-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .staff-list-header {
+    justify-content: center;
+  }
+}

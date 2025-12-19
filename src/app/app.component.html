@@ -1,0 +1,4 @@
+<ion-app>
+  <app-loader *ngIf="loaderState.visible" [message]="loaderState.message ?? ''" [progress]="loaderState.progress ?? null"></app-loader>
+  <ion-router-outlet></ion-router-outlet>
+</ion-app>
